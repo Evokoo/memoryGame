@@ -1,69 +1,73 @@
 export default function Card({
-	id,
-	value,
-	last,
-	setLast,
-	setMatch,
-	setGuesses,
+	card,
+	gameState,
+	dispatch,
 }: {
-	id: number;
-	value: string;
-	last: MemoryCard;
-	setLast: React.Dispatch<React.SetStateAction<MemoryCard>>;
-	setMatch: React.Dispatch<React.SetStateAction<number>>;
-	setGuesses: React.Dispatch<React.SetStateAction<number>>;
+	card: MemoryCard;
+	gameState: GameState;
+	dispatch: React.Dispatch<GameAction>;
 }) {
-	const flipCard = (
-		id: number,
-		value: string,
-		event: React.MouseEvent<HTMLDivElement>
-	) => {
-		const toggleFlip = (card): void => {
-			card.classList.toggle("facedown");
-			card.classList.toggle("faceup");
-		};
+	const toggleFlip = (cardEvent: React.BaseSyntheticEvent): void => {
+		cardEvent.target.classList.toggle("facedown");
+		cardEvent.target.classList.toggle("faceup");
+	};
 
-		const matchCards = (card): void => {
-			card.classList.toggle("matched");
-		};
+	const matchCards = (cardEvent: React.BaseSyntheticEvent): void => {
+		cardEvent.target.classList.toggle("matched");
+	};
 
+	const flipCard = (id: number, value: string, event: React.SyntheticEvent) => {
 		const current: MemoryCard = { id, value, event };
 
-		toggleFlip(current.event);
+		if (current.event) {
+			toggleFlip(current.event);
+		}
 
-		if (last.id === -1) {
-			setLast(current);
+		if (gameState.previousCard.id === -1) {
+			dispatch({ type: "set_previous_card", payload: current });
 			return;
 		}
 
-		if (current.value === last.value) {
+		if (current.value === gameState.previousCard.value) {
 			console.log("Match");
-			matchCards(current.event);
-			matchCards(last.event);
-			setLast({ id: -1, value: "", event: null });
-			setMatch((matches) => matches + 1);
+
+			if (current.event && gameState.previousCard.event) {
+				matchCards(current.event);
+				matchCards(gameState.previousCard.event);
+			}
+
+			dispatch({
+				type: "set_previous_card",
+				payload: { id: -1, value: "", event: null },
+			});
+			dispatch({ type: "increase_match" });
 		}
 
-		if (current.value !== last.value) {
+		if (current.value !== gameState.previousCard.value) {
 			console.log("No Match");
 
 			setTimeout(() => {
-				toggleFlip(current.event);
-				toggleFlip(last.event);
+				if (current.event && gameState.previousCard.event) {
+					toggleFlip(current.event);
+					toggleFlip(gameState.previousCard.event);
+				}
 			}, 500);
 
-			setLast({ id: -1, value: "", event: null });
+			dispatch({
+				type: "set_previous_card",
+				payload: { id: -1, value: "", event: null },
+			});
 		}
 
-		setGuesses((guesses) => guesses + 1);
+		dispatch({ type: "increase_guesses" });
 	};
 
 	return (
 		<div
 			className='card facedown'
-			onClick={(e) => flipCard(id, value, e.target)}
+			onClick={(event) => flipCard(card.id, card.value, event)}
 		>
-			<h3 className='card_value'>{value}</h3>
+			<h3 className='card_value'>{card.value}</h3>
 		</div>
 	);
 }

@@ -1,23 +1,13 @@
 import "./Scorecard.scss";
 
-export default function Scorecard({
-	matches,
-	guesses,
-	deck,
-	highScore,
-}: {
-	matches: number;
-	guesses: number;
-	deck: MemoryCard[];
-	highScore: number;
-}) {
+export default function Scorecard({ gameState }: { gameState: GameState }) {
 	return (
 		<div className='score_card'>
 			<p>
-				Matches: {matches} / {deck.length / 2}
+				Matches: {gameState.matches} / {gameState.deck.length / 2}
 			</p>
-			<p>Guesses: {guesses}</p>
-			<p>Top Score: {highScore}</p>
+			<p>Guesses: {gameState.guesses}</p>
+			<p>Top Score: {gameState.highScore}</p>
 		</div>
 	);
 }

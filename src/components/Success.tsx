@@ -2,39 +2,30 @@ import { useEffect } from "react";
 import "./Success.scss";
 
 export default function Success({
-	setMatches,
-	setGuesses,
-	highScore,
-	setHighScore,
-	guesses,
-	boardSize,
+	gameState,
+	dispatch,
 }: {
-	setMatches: React.Dispatch<React.SetStateAction<number>>;
-	setGuesses: React.Dispatch<React.SetStateAction<number>>;
-	highScore: number;
-	setHighScore: React.Dispatch<React.SetStateAction<number>>;
-	guesses: number;
-	boardSize: number;
+	gameState: GameState;
+	dispatch: React.Dispatch<GameAction>;
 }) {
-	const resetBoard = () => {
-		setMatches(0);
-		setGuesses(0);
-	};
-
 	useEffect(() => {
-		const topScore: number =
-			highScore > 0
-				? Math.min(highScore, guesses)
-				: Math.max(highScore, guesses);
+		const highscore = gameState.highScore;
+		const guesses = gameState.guesses;
 
-		setHighScore(topScore);
-		localStorage.setItem(`highscore${String(boardSize)}`, String(topScore));
-	}, [guesses, highScore, setHighScore, boardSize]);
+		const topScore: number =
+			highscore > 0
+				? Math.min(highscore, guesses)
+				: Math.max(highscore, guesses);
+
+		dispatch({ type: "set_highscore", payload: topScore });
+	}, []);
 
 	return (
 		<div className='success'>
 			<h1>WINNER!</h1>
-			<button onClick={() => resetBoard()}> New Game </button>
+			<button onClick={() => dispatch({ type: "reset_cards" })}>
+				New Game
+			</button>
 		</div>
 	);
 }
