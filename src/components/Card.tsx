@@ -16,7 +16,11 @@ export default function Card({
 		cardEvent.target.classList.toggle("matched");
 	};
 
-	const flipCard = (id: number, value: string, event: React.SyntheticEvent) => {
+	const flipCard = (
+		id: number,
+		value: string,
+		event: React.SyntheticEvent
+	): void => {
 		const current: MemoryCard = { id, value, event };
 
 		if (current.event) {

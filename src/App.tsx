@@ -38,7 +38,7 @@ function App() {
 	const [gameState, dispatch] = useReducer(gameReducer, intialState);
 
 	useEffect(() => {
-		const shuffledDeck = cards.sort((_) => (Math.random() > 0.5 ? 1 : -1));
+		const shuffledDeck = cards.sort(() => (Math.random() > 0.5 ? 1 : -1));
 		dispatch({ type: "set_deck", payload: shuffledDeck });
 		dispatch({
 			type: "set_highscore",
@@ -48,7 +48,6 @@ function App() {
 
 	return (
 		<div id='App'>
-			<h1>Hello Wolrd</h1>
 			{gameState.matches < cards.length / 2 ? (
 				<div className='card_grid'>
 					{gameState.deck.map((card: MemoryCard) => (
