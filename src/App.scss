@@ -1,0 +1,29 @@
+@use "./components";
+@use "./scss/" as *;
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	background-color: $color_bg;
+	padding: 1em;
+}
+
+#App {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.card_grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1em;
+	}
+}

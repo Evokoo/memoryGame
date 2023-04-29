@@ -1,0 +1,11 @@
+@use "../scss/index.scss" as *;
+
+.score_card {
+	border: 2px solid $color_card_face;
+	border-radius: 8px;
+	display: flex;
+	gap: 2em;
+	margin-top: 2em;
+	padding: 1em 2em;
+	color: $color_card_face;
+}

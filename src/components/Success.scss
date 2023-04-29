@@ -1,0 +1,29 @@
+@use "../scss/" as *;
+
+.success {
+	display: flex;
+	flex-direction: column;
+	padding: 1em 2em;
+	gap: 1em;
+
+	h1,
+	h3 {
+		color: $color_card_face;
+	}
+
+	button {
+		color: $color_card_back;
+		font-size: medium;
+		background-color: transparent;
+		border: none;
+		padding: 1em 2em;
+
+		border: 2px solid $color_card_back;
+		border-radius: 8px;
+
+		&:hover {
+			background-color: rgba($color_card_back, 0.2);
+			cursor: pointer;
+		}
+	}
+}

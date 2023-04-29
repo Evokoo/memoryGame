@@ -1,0 +1,39 @@
+@use "../scss/colors" as *;
+
+.card {
+	width: 100px;
+	height: 100px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	cursor: pointer;
+
+	border-radius: 8px;
+
+	&.facedown {
+		background-color: $color_card_back;
+		border: 10px solid $color_card_border;
+
+		.card_value {
+			display: none;
+			visibility: hidden;
+		}
+	}
+
+	&.faceup {
+		background-color: $color_card_face;
+		border: 10px solid darken($color_card_face, 20%);
+		pointer-events: none;
+
+		.card_value {
+			display: block;
+		}
+	}
+
+	&.matched {
+		pointer-events: none;
+		background-color: darken($color_card_face, 20%);
+	}
+}
